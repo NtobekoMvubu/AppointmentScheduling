@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace AppointmentScheduling.Models.ViewModels
 {
-    public class DoctorVM
+    public class CommonResponse<T>
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public int status { get; set; }
+        public string message { get; set; }
+        public T dataenum { get; set; }
     }
 }
