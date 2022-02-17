@@ -32,19 +32,50 @@ namespace AppointmentScheduling.Controllers.API
         public IActionResult SaveCalendarData(AppointmentVM data)
         {
             CommonResponse<int> commonResponse = new CommonResponse<int>();
-            try 
+            try
             {
                 commonResponse.status = _appointmentService.AddUpdate(data).Result;
-                if (commonResponse.status==1)
+                if (commonResponse.status == 1)
                 {
 
-                }commonResponse.message = Helper.appointmentUpdated;
+                } commonResponse.message = Helper.appointmentUpdated;
                 if (commonResponse.status == 2)
                 {
 
                 }
                 commonResponse.message = Helper.appointmentAdded;
-            } 
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = Helper.failure_code;
+            }
+            return Ok(commonResponse);
+        }
+        
+        [HttpGet]
+        [Route("GetCalendarData")]
+        public IActionResult GetCalendarData(string doctorId)
+        {
+            CommonResponse<List<AppointmentVM>> commonResponse = new CommonResponse<List<AppointmentVM>>();
+            try
+            {
+                if (role == Helper.Patient)
+                {
+                    commonResponse.dataenum = _appointmentService.PatientsEventById(loginUserId);
+                    commonResponse.status = Helper.success_code;
+                }
+                else if (role == Helper.Doctor)
+                {
+                    commonResponse.dataenum = _appointmentService.DoctorsEventById(loginUserId);
+                    commonResponse.status = Helper.success_code;
+                }
+                else
+                {
+                    commonResponse.dataenum = _appointmentService.DoctorsEventById(doctorId);
+                    commonResponse.status = Helper.success_code;
+                }
+            }
             catch (Exception e)
             {
                 commonResponse.message = e.Message;
@@ -53,6 +84,24 @@ namespace AppointmentScheduling.Controllers.API
             return Ok(commonResponse);
         }
 
-         
+
+        [HttpGet]
+        [Route("GetCalendarDataById/{id}")]
+        public IActionResult GetCalendarDataById(int id)
+        {
+            CommonResponse<AppointmentVM> commonResponse = new CommonResponse<AppointmentVM>();
+            try
+            {
+                    commonResponse.dataenum = _appointmentService.GetById(id);
+                    commonResponse.status = Helper.success_code;
+                
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = Helper.failure_code;
+            }
+            return Ok(commonResponse);
+        }
     }
 }

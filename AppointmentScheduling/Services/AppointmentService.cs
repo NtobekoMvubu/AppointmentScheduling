@@ -77,5 +77,54 @@ namespace AppointmentScheduling.Services
 
             return patients;
         }
+
+        public List<AppointmentVM> DoctorsEventById(string doctorId)
+        {
+            return _db.Appointments.Where(x => x.DoctorId == doctorId).ToList().Select(c => new AppointmentVM()
+            {
+                Id = c.Id,
+                Description = c.Description,
+                StartDate = c.StartDate.ToString("yyy-MM-dd HH:mm:ss"),
+                EndDate = c.EndDate.ToString("yyy-MM-dd HH:mm:ss"),
+                Title = c.Title,
+                Duration = c.Duration,
+                isDoctApproved = c.isDoctApproved
+
+            }).ToList();
+        }
+
+        public List<AppointmentVM> PatientsEventById(string patientId)
+        {
+            return _db.Appointments.Where(x => x.PatientId == patientId).ToList().Select(c => new AppointmentVM()
+            {
+                Id = c.Id,
+                Description = c.Description,
+                StartDate = c.StartDate.ToString("yyy-MM-dd HH:mm:ss"),
+                EndDate = c.EndDate.ToString("yyy-MM-dd HH:mm:ss"),
+                Title = c.Title,
+                Duration = c.Duration,
+                isDoctApproved = c.isDoctApproved
+
+            }).ToList();
+        }
+
+        public AppointmentVM GetById(int id)
+        {
+            return _db.Appointments.Where(x => x.Id == id).ToList().Select(c => new AppointmentVM()
+            {
+                Id = c.Id,
+                Description = c.Description,
+                StartDate = c.StartDate.ToString("yyy-MM-dd HH:mm:ss"),
+                EndDate = c.EndDate.ToString("yyy-MM-dd HH:mm:ss"),
+                Title = c.Title,
+                Duration = c.Duration,
+                isDoctApproved = c.isDoctApproved,
+                PatientId = c.PatientId,
+                DoctorId = c.DoctorId,
+                PatientName = _db.Users.Where(x => x.Id == c.PatientId).Select(x => x.Name).FirstOrDefault(),
+                DoctorName = _db.Users.Where(x => x.Id == c.DoctorId).Select(x => x.Name).FirstOrDefault(),
+
+            }).SingleOrDefault();
+        }
     }
 }
