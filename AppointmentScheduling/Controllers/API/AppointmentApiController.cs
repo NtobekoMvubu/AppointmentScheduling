@@ -37,13 +37,13 @@ namespace AppointmentScheduling.Controllers.API
                 commonResponse.status = _appointmentService.AddUpdate(data).Result;
                 if (commonResponse.status == 1)
                 {
-
-                } commonResponse.message = Helper.appointmentUpdated;
+                    commonResponse.message = Helper.appointmentUpdated;
+                } 
                 if (commonResponse.status == 2)
                 {
-
+                    commonResponse.message = Helper.appointmentAdded;
                 }
-                commonResponse.message = Helper.appointmentAdded;
+                
             }
             catch (Exception e)
             {
@@ -103,5 +103,54 @@ namespace AppointmentScheduling.Controllers.API
             }
             return Ok(commonResponse);
         }
+
+        [HttpGet]
+        [Route("DeleteAppointment/{id}")]
+        public async Task<IActionResult> DeleteAppointment(int id)
+        {
+            CommonResponse<int> commonResponse = new CommonResponse<int>();
+            try
+            {
+
+                commonResponse.status = await _appointmentService.Delete(id);
+                commonResponse.message = commonResponse.status == 1 ? Helper.appointmentDeleted : Helper.somethingWentWrong;
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = Helper.failure_code;
+            }
+            return Ok(commonResponse);
+        }
+
+
+        [HttpGet]
+        [Route("ConfirmEvent/{id}")]
+        public IActionResult ConfirmEvent(int id)
+        {
+            CommonResponse<int> commonResponse = new CommonResponse<int>();
+            try
+            {
+                var result = _appointmentService.ConfirmEvent(id).Result;
+                if (result > 0)
+                {
+                    commonResponse.status = Helper.success_code;
+                    commonResponse.message = Helper.meetingConfirm;
+                }
+                else
+                {
+                    commonResponse.status = Helper.failure_code;
+                    commonResponse.message = Helper.meetingConfirmError;
+                }
+
+            }
+            catch (Exception e)
+            {
+                commonResponse.message = e.Message;
+                commonResponse.status = Helper.failure_code;
+            }
+            return Ok(commonResponse);
+        }
+
     }
 }

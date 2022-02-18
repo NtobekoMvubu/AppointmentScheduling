@@ -8,7 +8,7 @@ namespace AppointmentScheduling.Utility
 {
     public static class Helper
     {
-        public static string Admin = "Admin";
+        public const string Admin = "Admin";
         public static string Patient = "Patient";
         public static string Doctor = "Doctor";
 
@@ -17,7 +17,8 @@ namespace AppointmentScheduling.Utility
         public static string appointmentDeleted = "Appointment deleted successfully.";
         public static string appointmentExists = "Appointment for selected date and time already exists.";
         public static string appointmentNotExists = "Appointment not exists.";
-
+        public static string meetingConfirm = "Meeting confirm successfully";
+        public static string meetingConfirmError = "Error whiel confirming meeting.";
         public static string appointmentAddError = "Something went wront, Please try again.";
         public static string appointmentUpdatError = "Something went wront, Please try again.";
         public static string somethingWentWrong = "Something went wront, Please try again.";
@@ -26,15 +27,24 @@ namespace AppointmentScheduling.Utility
         public static int failure_code = 0;
 
 
-        public static List<SelectListItem> GetRolesForDropDown()
+        public static List<SelectListItem> GetRolesForDropDown(bool isAdmin)
         {
-            return new List<SelectListItem>
+            if (isAdmin)
+            {
+                return new List<SelectListItem>
             {
                 new SelectListItem
                 {
                     Value = Helper.Admin,
                     Text = Helper.Admin
-                },
+                }
+            };
+            }
+            else
+            {
+                return new List<SelectListItem>
+            {
+               
                 new SelectListItem
                 {
                     Value = Helper.Doctor,
@@ -46,6 +56,8 @@ namespace AppointmentScheduling.Utility
                     Text = Helper.Patient
                 },
             };
+            }
+            
         }
 
         public static List<SelectListItem> GetTimeDropDown()

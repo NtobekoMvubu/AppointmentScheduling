@@ -72,13 +72,13 @@
                     @if (User.IsInRole(AppointmentScheduling.Utility.Helper.Admin))
                     {
                         <button type="button" id="btnSubmit" class="btn btn-success" onClick="onSubmitForm();">Submit</button>
-                        <button type="button" id="btnDelete" class="btn btn-danger " hidden onClick="onDeleteAppointment();">Delete</button>
+                        <button type="button" id="btnDelete" class="btn btn-danger "  onClick="onDeleteAppointment();">Delete</button>
                     }
 
                     @if (User.IsInRole(AppointmentScheduling.Utility.Helper.Doctor))
                     {
                         <button type="button" id="btnConfirm" class="btn btn-success" onClick="onConfirm();">Confirm</button>
-                        <button type="button" id="btnDelete" class="btn btn-danger" hidden onClick="onDeleteAppointment();">Delete</button>
+                        <button type="button" id="btnDelete" class="btn btn-danger "  onClick="onDeleteAppointment();">Delete</button>
                     }
 
 
